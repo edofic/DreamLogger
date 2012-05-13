@@ -1,0 +1,3 @@
+[submodule "yoda"]
+	path = yoda
+	url = git@github.com:edofic/YodaLib.git
