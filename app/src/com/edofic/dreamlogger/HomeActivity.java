@@ -15,16 +15,23 @@
 
 package com.edofic.dreamlogger;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.widget.TextView;
+import roboguice.activity.RoboActivity;
+import roboguice.inject.InjectView;
 
-public class HomeActivity extends Activity
+
+public class HomeActivity extends RoboActivity
 {
+    @InjectView(R.id.hello)
+    private TextView hello;
+
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        hello.setText("hello from roboguice");
     }
 }
