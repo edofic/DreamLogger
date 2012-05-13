@@ -16,22 +16,28 @@
 package com.edofic.dreamlogger;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Adapter;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import roboguice.activity.RoboActivity;
 import roboguice.inject.InjectView;
 
 
-public class HomeActivity extends RoboActivity
-{
-    @InjectView(R.id.hello)
-    private TextView hello;
+public class HomeActivity extends RoboActivity {
+    @InjectView(R.id.list) private ListView lv;
 
     /** Called when the activity is first created. */
     @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        hello.setText("hello from roboguice");
+
+        lv.setAdapter(new DreamAdapter(this));
+    }
+
+    public void addDream(View sender) {
+        Toast.makeText(this, R.string.not_implemented, Toast.LENGTH_LONG).show();
     }
 }
