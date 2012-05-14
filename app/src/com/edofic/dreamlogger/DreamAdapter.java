@@ -42,7 +42,7 @@ public class DreamAdapter extends BaseAdapter {
         update();
     }
 
-    private void update() {
+    public void update() {
         dreams = datasource.getAll();
         notifyDataSetChanged();
     }
@@ -76,7 +76,7 @@ public class DreamAdapter extends BaseAdapter {
             tv = (TextView) v.findViewById(R.id.name);
             tv.setText(dream.getName());
             tv = (TextView) v.findViewById(R.id.date);
-            tv.setText(dream.getFormattedDate());
+            tv.setText(Util.getFormattedDate(mContext, dream.getDate()));
         }
         return v;
     }

@@ -15,11 +15,10 @@
 
 package com.edofic.dreamlogger;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 import roboguice.activity.RoboActivity;
 import roboguice.inject.InjectView;
@@ -28,16 +27,30 @@ import roboguice.inject.InjectView;
 public class HomeActivity extends RoboActivity {
     @InjectView(R.id.list) private ListView lv;
 
+    private DreamAdapter adapter = null;
+
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-        lv.setAdapter(new DreamAdapter(this));
+        adapter = new DreamAdapter(this);
+        lv.setAdapter(adapter);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        adapter.update();
     }
 
     public void addDream(View sender) {
-        Toast.makeText(this, R.string.not_implemented, Toast.LENGTH_LONG).show();
+        //Dream.current=new Dream(1, "test", "desc", 12358);
+        startActivity(
+                new Intent(this, ViewDreamActivity.class)
+                        .putExtra(ViewDreamActivity.EXIT_ON_END, true)
+                        .putExtra(ViewDreamActivity.LOAD_CURRENT, true)
+        );
     }
 }

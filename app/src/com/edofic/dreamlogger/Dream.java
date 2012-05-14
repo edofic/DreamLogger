@@ -28,8 +28,8 @@ import java.util.Locale;
  * Time: 2:49 PM
  */
 @Table(name = Dream.TABLE_NAME)
-public class Dream {
-    public static final String DATE_FORMAT = "dd.MM.yyyy";
+public class Dream implements Cloneable{
+    public static Dream current;
 
     public static final String TABLE_NAME           = "dream";
     public static final String COLUMN_ID            = "id";
@@ -45,6 +45,8 @@ public class Dream {
     private String description ;
     @Column(name = COLUMN_DATE, position = 4)
     private long date;
+
+    public Dream() { }
 
     public Dream(long id, String name, String description, long date) {
         this.id = id;
@@ -81,7 +83,16 @@ public class Dream {
         return date;
     }
 
-    public String getFormattedDate() {
-        return DateFormat.format(DATE_FORMAT, getDate()).toString();
+    public void setDate(long date) {
+        this.date = date;
+    }
+
+    @Override
+    protected Dream clone() {
+        try {
+            return (Dream)super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw  new AssertionError("Clone not supported in a class that implements cloneable");
+        }
     }
 }

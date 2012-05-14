@@ -17,4 +17,5 @@
 <resources>
     <string name="app_name">DreamLogger</string>
     <string name="not_implemented">Sorry, not implemented yet.</string>
+    <string name="wtf">Oooops. Something went wrong.</string>
 </resources>
