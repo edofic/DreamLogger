@@ -3,3 +3,4 @@ out
 app/bin
 app/gen
 app/local.properties
+app/app.iml
