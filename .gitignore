@@ -1,6 +1,7 @@
 .idea
+.iml
+*/*.iml
 out
 app/bin
 app/gen
 app/local.properties
-app/app.iml

@@ -18,25 +18,42 @@ package com.edofic.dreamlogger;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 import roboguice.activity.RoboActivity;
 import roboguice.inject.InjectView;
 
 
 public class HomeActivity extends RoboActivity {
-    @InjectView(R.id.list) private ListView lv;
+    @InjectView(R.id.list)
+    private ListView lv;
 
     private DreamAdapter adapter = null;
 
-    /** Called when the activity is first created. */
+    /**
+     * Called when the activity is first created.
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
+        setUpList();
+    }
+
+    private void setUpList() {
         adapter = new DreamAdapter(this);
         lv.setAdapter(adapter);
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                Dream.current = adapter.getItem(position);
+                startActivity(
+                        new Intent(getApplicationContext(), ViewDreamActivity.class)
+                                .putExtra(ViewDreamActivity.LOAD_CURRENT, true)
+                );
+            }
+        });
     }
 
     @Override
@@ -46,7 +63,7 @@ public class HomeActivity extends RoboActivity {
     }
 
     public void addDream(View sender) {
-        //Dream.current=new Dream(1, "test", "desc", 12358);
+        Dream.current = null;
         startActivity(
                 new Intent(this, ViewDreamActivity.class)
                         .putExtra(ViewDreamActivity.EXIT_ON_END, true)

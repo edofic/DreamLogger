@@ -15,12 +15,8 @@
 
 package com.edofic.dreamlogger;
 
-import android.text.format.DateFormat;
 import com.edofic.yodalib.database.Column;
 import com.edofic.yodalib.database.Table;
-
-import java.util.Calendar;
-import java.util.Locale;
 
 /**
  * User: andraz
@@ -28,25 +24,26 @@ import java.util.Locale;
  * Time: 2:49 PM
  */
 @Table(name = Dream.TABLE_NAME)
-public class Dream implements Cloneable{
+public class Dream {
     public static Dream current;
 
-    public static final String TABLE_NAME           = "dream";
-    public static final String COLUMN_ID            = "id";
-    public static final String COLUMN_NAME          ="name";
-    public static final String COLUMN_DESCRIPTION   = "description";
-    public static final String COLUMN_DATE          = "date";
+    public static final String TABLE_NAME = "dream";
+    public static final String COLUMN_ID = "id";
+    public static final String COLUMN_NAME = "name";
+    public static final String COLUMN_DESCRIPTION = "description";
+    public static final String COLUMN_DATE = "date";
 
     @Column(name = COLUMN_ID, position = 1, primaryKey = true, autoIncrement = true)
     private long id;
     @Column(name = COLUMN_NAME, position = 2)
     private String name;
     @Column(name = COLUMN_DESCRIPTION, position = 3)
-    private String description ;
+    private String description;
     @Column(name = COLUMN_DATE, position = 4)
     private long date;
 
-    public Dream() { }
+    public Dream() {
+    }
 
     public Dream(long id, String name, String description, long date) {
         this.id = id;
@@ -85,14 +82,5 @@ public class Dream implements Cloneable{
 
     public void setDate(long date) {
         this.date = date;
-    }
-
-    @Override
-    protected Dream clone() {
-        try {
-            return (Dream)super.clone();
-        } catch (CloneNotSupportedException e) {
-            throw  new AssertionError("Clone not supported in a class that implements cloneable");
-        }
     }
 }

@@ -20,7 +20,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 import com.edofic.yodalib.database.Datasource;
 
@@ -38,7 +37,7 @@ public class DreamAdapter extends BaseAdapter {
 
     public DreamAdapter(Context context) {
         mContext = context;
-        datasource = new Datasource<Dream>(mContext, Dream.class);
+        datasource = ((DreamApp) context.getApplicationContext()).getDb().getDreams();
         update();
     }
 
@@ -66,7 +65,7 @@ public class DreamAdapter extends BaseAdapter {
     public View getView(int position, View convert, ViewGroup parrent) {
         View v = convert;
         if (v == null) {
-            LayoutInflater vi = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater vi = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             v = vi.inflate(R.layout.listitem_dream, null);
         }
 

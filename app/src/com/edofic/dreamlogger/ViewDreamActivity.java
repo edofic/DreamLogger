@@ -1,6 +1,20 @@
+/*
+ * Copyright 2012 Andraz Bajt
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.edofic.dreamlogger;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -11,8 +25,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.edofic.yodalib.database.Datasource;
 import roboguice.activity.RoboActivity;
-import roboguice.event.Observes;
 import roboguice.inject.InjectView;
 
 /**
@@ -26,15 +40,21 @@ public class ViewDreamActivity extends RoboActivity {
     public static final String EXIT_ON_END = "exitOnEnd";
     private boolean editMode = false;
     private Dream dream;
+    private Datasource<Dream> dreams;
 
-    @InjectView(R.id.name)      private EditText name;
-    @InjectView(R.id.date)      private TextView date;
-    @InjectView(R.id.desc)      private EditText desc;
-    @InjectView(R.id.buttons)   private LinearLayout buttons;
+    @InjectView(R.id.name)
+    private EditText name;
+    @InjectView(R.id.date)
+    private TextView date;
+    @InjectView(R.id.desc)
+    private EditText desc;
+    @InjectView(R.id.buttons)
+    private LinearLayout buttons;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view_dream);
+        dreams = ((DreamApp) getApplication()).getDb().getDreams();
     }
 
     @Override
@@ -50,15 +70,14 @@ public class ViewDreamActivity extends RoboActivity {
         final Intent intent = getIntent();
         editMode = intent.getBooleanExtra(EDIT_MODE, editMode);
         intent.removeExtra(EDIT_MODE);
-        intent.removeExtra(EDIT_MODE);
-        if(intent.getBooleanExtra(LOAD_CURRENT, false)) {
+        if (intent.getBooleanExtra(LOAD_CURRENT, false)) {
             intent.removeExtra(LOAD_CURRENT);
-            if(Dream.current==null) {         //create new
-                editMode=true;
+            if (Dream.current == null) {         //create new
+                editMode = true;
                 dream = new Dream();
                 dream.setDate(System.currentTimeMillis()); //defaults to creation date
             } else {
-                dream = Dream.current.clone();
+                dream = Dream.current;
             }
         }
 
@@ -84,11 +103,11 @@ public class ViewDreamActivity extends RoboActivity {
     }
 
     private void finishEditing() {
-        if(getIntent().getBooleanExtra(EXIT_ON_END, false)) {
+        if (getIntent().getBooleanExtra(EXIT_ON_END, false)) {
             finish();
             return;
         }
-        editMode=false;
+        editMode = false;
         enforceEdit();
     }
 
@@ -99,8 +118,7 @@ public class ViewDreamActivity extends RoboActivity {
 
     public void save(View sender) {
         storeData();
-        Datasource datasource = new Datasource(this);
-        datasource.insertSingle(dream);
+        dreams.insert(dream);
         Dream.current = dream;
         finishEditing();
     }
@@ -122,7 +140,7 @@ public class ViewDreamActivity extends RoboActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menuEdit:
-                editMode=true;
+                editMode = true;
                 enforceEdit();
                 return true;
         }
