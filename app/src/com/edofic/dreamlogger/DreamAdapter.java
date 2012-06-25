@@ -21,7 +21,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-import com.edofic.yodalib.database.Datasource;
 
 import java.util.List;
 
@@ -32,7 +31,7 @@ import java.util.List;
  */
 public class DreamAdapter extends BaseAdapter {
     private Context mContext;
-    private Datasource<Dream> datasource;
+    private Database.Dreams datasource;
     private List<Dream> dreams;
 
     public DreamAdapter(Context context) {

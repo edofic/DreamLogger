@@ -25,7 +25,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.edofic.yodalib.database.Datasource;
 import roboguice.activity.RoboActivity;
 import roboguice.inject.InjectView;
 
@@ -40,7 +39,7 @@ public class ViewDreamActivity extends RoboActivity {
     public static final String EXIT_ON_END = "exitOnEnd";
     private boolean editMode = false;
     private Dream dream;
-    private Datasource<Dream> dreams;
+    private Database.Dreams dreams;
 
     @InjectView(R.id.name)
     private EditText name;

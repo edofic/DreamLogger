@@ -17,6 +17,9 @@ package com.edofic.dreamlogger;
 
 import android.content.Context;
 import com.edofic.yodalib.database.Datasource;
+import com.edofic.yodalib.database.Query;
+
+import java.util.List;
 
 /**
  * User: andraz
@@ -27,19 +30,41 @@ public class Database extends com.edofic.yodalib.database.Database {
     public static final String NAME = "dreams";
     public static final int VERSION = 1;
 
+    private Dreams dreams = new Dreams();
+
     public Database(Context context) {
         super(context, NAME, VERSION);
+
     }
 
     @TableDatasource(injectForType = Dream.class)
-    private Datasource<Dream> dreams;
+    private Datasource<Dream> dreamsTable;
 
-    public Datasource<Dream> getDreams() {
+    public Dreams getDreams() {
         return dreams;
     }
 
     public void close() {
-        dreams.close();
+        dreamsTable.close();
+        dreamsTable = null;
         dreams = null;
+    }
+
+    public class Dreams {
+        public long insert(Dream dream) {
+            return dreamsTable.insert(dream);
+        }
+
+        @SuppressWarnings("unchecked")
+        public List<Dream> get(String whereClause) {
+            Query<Dream> query = new Query<Dream>(Dream.class);
+            final String[] columnNames = dreamsTable.getMetaData().getColumnNames();
+            final String orderBy = Dream.COLUMN_DATE + " DESC";
+            return query.execute(dreamsTable, true, columnNames, whereClause, null, null, orderBy, null);
+        }
+
+        public List<Dream> getAll() {
+            return get(null);
+        }
     }
 }
